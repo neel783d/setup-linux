@@ -32,3 +32,6 @@ conda install -c anaconda keras-gpu pytorch torchvision
 echo "jupyter themes installation.."
 pip install jupyterthemes
 jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88% -T
+
+echo "--------------------------------"
+echo "- update bash prompt manually from bira theme"
