@@ -1,19 +1,11 @@
-echo "Packman Setup..."
-sudo zypper ar -cfp 90 http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/ packman
-sudo zypper ar -f http://opensuse-guide.org/repo/openSUSE_Tumbleweed/ dvd
-sudo zypper ref
-sudo zypper dup
-sudo zypper install vlc vlc-codecs ffmpeg lame gstreamer-plugins-libav gstreamer-plugins-bad gstreamer-plugins-ugly gstreamer-plugins-good libdvdcss2
-
 echo "git, zsh and vim setup.."
-sudo zypper in zsh git
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-git clone https://github.com/neel783d/setup-linux.git
+sudo apt install zsh git vim
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --recursive https://github.com/neel783d/setup-linux.git
 cp setup-linux/.zshrc ~/.
 cp -r setup-linux/.vim ~/.
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
-source ~/.zshrc
 
 echo "git username and password store.."
 cd ./setup-linux/
@@ -24,29 +16,19 @@ git push origin HEAD
 cd ..
 
 echo "leecode client installation.."
-sudo zypper install nodejs-common
+sudo apt install nodejs-common
 sudo npm install -g leetcode-cli
 
 echo "taskwarrior installation.."
-sudo zypper install taskwarrior
+sudo apt install taskwarrior
 
 echo "kaggle api installation.."
 pip install kaggle
 
 echo "machine learning toolkits installation.."
-conda install -c anaconda tensorflow-gpu==1.12 
+conda install -c anaconda tensorflow-gpu
 conda install -c anaconda keras-gpu pytorch torchvision
 
 echo "jupyter themes installation.."
 pip install jupyterthemes
 jt -t onedork -fs 95 -altp -tfs 11 -nfs 115 -cellw 88% -T
-
-echo "nvidia driver install.."
-sudo zypper gcc make kernel-source kernel-devel
-sudo sh /movies/Downloads/NVIDIA-Linux-x86_64-418.56.run
-
-echo "add nomodeset to grub manually using:"
-echo "-- sudo vim /etc/default/grub"
-echo "-- add nomodeset in linux line and exit"
-echo "-- update grub using: sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
-echo "-- reboot"
