@@ -14,7 +14,6 @@
 ### task management
 - Focus To-do (handles pomodoro)
 
-
 ### Proxy
 - proxy switchy omega
 
@@ -23,3 +22,15 @@
 
 ### Intellij Plugins
 - gitlink
+
+
+### Data Pipeline Related
+- Azkaban
+- Airflow
+- Serverless
+
+### Bash
+- jq
+- parallel
+- awk
+- sed
