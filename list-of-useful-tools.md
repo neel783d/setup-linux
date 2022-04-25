@@ -20,3 +20,6 @@
 
 ### Shorten Links
 - Trotto go links
+
+### Intellij Plugins
+- gitlink
