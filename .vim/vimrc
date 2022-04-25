@@ -44,6 +44,7 @@ call vundle#end()            " required
 " Theme
 """"""""""""""""""""""""""""""""""
 colorscheme gruvbox
+set bg=dark
 
 """"""""""""""""""""""""""""""""""
 " Key Mapping
@@ -168,4 +169,3 @@ command! C let @/=""
 set undolevels=1000
 set undofile
 set undodir=$HOME/.vim/undo
-
