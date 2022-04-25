@@ -1,21 +1,22 @@
 ### Authentications
-Authy
+- Authy
 
 ### Kinesis
-kinesis-tail: https://github.com/fujiwara/kinesis-tailf
+- kinesis-tail: https://github.com/fujiwara/kinesis-tailf
 
 ### Python
-conda
-jupyterlab
-jupyterhub
-kaggle
+- conda
+- jupyterlab
+- jupyterhub
+- kaggle
+- vim
 
 ### task management
-Focus To-do (handles pomodoro)
+- Focus To-do (handles pomodoro)
 
 
 ### Proxy
-proxy switchy omega
+- proxy switchy omega
 
 ### Shorten Links
-Trotto go links
+- Trotto go links
