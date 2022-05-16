@@ -2,11 +2,13 @@
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # eval $(/opt/homebrew/bin/brew shellenv)
 
+echo "brew related"
+brew install git zsh
+
 echo "install oh my zsh"
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
 echo "setup git"
-brew install git
 git clone git@github.com:neel783d/setup-linux.git
 cp setup-linux/.zshrc ~/.
 cp -r setup-linux/.vim ~/.
