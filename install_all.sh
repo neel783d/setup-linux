@@ -7,7 +7,7 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 echo "setup git"
 brew install git
-git clone git@github.com:neeleshdewangan/setup-linux.git
+git clone git@github.com:neel783d/setup-linux.git
 cp setup-linux/.zshrc ~/.
 cp -r setup-linux/.vim ~/.
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
