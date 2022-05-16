@@ -27,3 +27,4 @@ git push origin HEAD
 cd ..
 
 echo "update your email to org email"
+zsh
