@@ -97,8 +97,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH="/home/neil/anaconda3/bin:$PATH"
 
 # Alias
-alias seagate="cd /seagate"
-alias projects="cd /work/Projects"
+alias projects="cd $HOME/Desktop/projects"
 
 # External Alias File
 source ~/.vim/alias_file
