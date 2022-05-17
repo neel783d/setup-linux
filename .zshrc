@@ -102,3 +102,5 @@ alias projects="cd $HOME/Desktop/projects"
 # External Alias File
 source ~/.vim/alias_file
 
+eval $(/opt/homebrew/bin/brew shellenv)
+
