@@ -1,20 +1,127 @@
+# PYTHON
+PYTHON_ENV_NAME=python3.9
+
 # Git Alias
 alias gdf='git diff'
 alias gss='git status'
 alias gckt='git checkout'
 alias gpo='git push origin'
 alias gpl='git pull'
-alias gbh='git branch'
+alias gbh='git branch --sort=-committerdate'
 alias gcmt='git commit -am'
-alias gcn='git clone'
+alias gamt='git commit -m'
+alias gcn='git clone --recursive'
 alias grs='git reset --soft'
 alias grh='git reset --hard'
 alias gdel='git branch --delete'
-alias gdelcurr='git rev-parse --abbrev-ref HEAD > /tmp/.gitbranch && git checkout master && git pull && git branch --delete $(head -1 /tmp/.gitbranch)'
+alias gdelcurr='git rev-parse --abbrev-ref HEAD > /tmp/.gitbranch && git checkout main && git pull && git branch --delete $(head -1 /tmp/.gitbranch)'
+alias gdelmaster='git rev-parse --abbrev-ref HEAD > /tmp/.gitbranch && git checkout master && git pull && git branch --delete $(head -1 /tmp/.gitbranch)'
+alias gdeldev='git rev-parse --abbrev-ref HEAD > /tmp/.gitbranch && git checkout develop && git pull && git branch --delete $(head -1 /tmp/.gitbranch)'
+alias gtree='git log --oneline --decorate --graph --all'
+alias gauthorupdate='git commit --amend --author "Neel <neel783d@gmail.com>" --no-edit'
+alias gamend='git commit --amend'
+alias grb='git rebase'
+alias gmodu='git submodule update --remote --merge'
+alias gfixtag='git fetch --prune origin "+refs/tags/*:refs/tags/*"'
+alias gwlist='git worktree list'
+alias gcleanup="git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d"
 
-# TV Alias
-alias mmon="sh ~/.vim/scripts/toggle-screen.sh monitor"
-alias mtv="sh ~/.vim/scripts/toggle-screen.sh tv"
-alias mclone="sh ~/.vim/scripts/toggle-screen.sh clone"
-alias mexp="sh ~/.vim/scripts/toggle-screen.sh expand"
-alias mdp="xrandr --output DP-1 --auto --scale 4x4 && xrandr --output DP-1 --auto --scale 2x2"
+gwadd() {
+ name=$1
+ branch=$2
+ git branch ${branch}
+ git worktree add ${HOME}/Desktop/projects/${name} ${branch}
+}
+
+gwrm() {
+ name="$1"
+ branch=$(git worktree list | grep "${name}" | grep -o -e '\[.*\]' | tr -d '[]')
+ echo "branch: ${branch}, worktree: ${name} is cleaning up" 
+ rm -rf "${HOME}/Desktop/projects/${name}"
+ git worktree prune
+ git branch -D ${branch}
+}
+
+# PC Related Aliases
+alias aliaslist='cat $HOME/.vim/alias_file'
+alias sourcealias='source ~/.vim/alias_file'
+alias sockscurl='curl --socks5-hostname localhost:1080'
+
+# Java Aliases
+java_path='/Library/Java/JavaVirtualMachines'
+alias usejava8='export JAVA_HOME=$java_path/adoptopenjdk-8.jdk/Contents/Home'
+alias usejava7='export JAVA_HOME=$java_path/zulu-7.jdk/Contents/Home'
+alias usejava11='export JAVA_HOME=$java_path/adoptopenjdk-11.jdk/Contents/Home'
+
+# AWS Aliases
+alias s3ls='aws s3 ls'
+export TERM=xterm-color
+
+get_aws_keys() {
+	echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID;AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY;AWS_DEFAULT_REGION=us-east-1;AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN;AWS_CREDENTIAL_EXPIRATION=$AWS_CREDENTIAL_EXPIRATION;AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID"
+}
+
+# Docker related
+alias dclear='docker rm -vf $(docker ps -a -q)'
+alias diclear='docker rmi $(docker images --filter "dangling=true" -q --no-trunc)'
+alias drun='docker run -it --name neel --network=host -e GithubAccessToken=${GITHUB_ACCESS_TOKEN} -e NPM_ACCESS_TOKEN=${NPM_ACCESS_TOKEN} -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN} -e ACCESS_TOKEN=${ACCESS_TOKEN}'
+
+# Local Settings
+alias goproj='cd ~/Desktop/projects'
+
+dlogin() {
+	pass=$(aws ecr get-login-password --region us-east-1)
+  account=$1
+	docker login --username AWS --password ${pass} ${account}.dkr.ecr.us-east-1.amazonaws.com
+}
+
+# brew
+alias brew86="arch -x86_64 /usr/local/homebrew/bin/brew"
+
+# apps
+alias clion="mbx env && open /Applications/CLion.app"
+
+pkill() {
+  port=$1
+  data="killing process on port: ${1}"
+  echo "$data"
+  lsof -i tcp:${port} | cut -f2 -d ' ' | tail -1 | xargs kill -9 
+}
+
+# memcache
+alias startmemcache='brew services start memcached'
+alias stopmemcache='brew services stop memcached'
+
+
+setup_libtorch() {
+  export DYLD_LIBRARY_PATH="/Users/neeleshdewangan/anaconda3/lib/${PYTHON_ENV_NAME}/site-packages/torch/lib"
+  export LD_LIBRARY_PATH="/Users/neeleshdewangan/anaconda3/lib/${PYTHON_ENV_NAME}/site-packages/torch/lib"
+  export LIBTORCH="/Users/neeleshdewangan/anaconda3/lib/${PYTHON_ENV_NAME}/site-packages/torch"
+  echo "LIBTORCH=${LIBTORCH}"
+  echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+  echo "DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}"
+}
+
+setup_libtorch_gnu() {
+  export LIBTORCH="/Users/neeleshdewangan/Desktop/library/libtorch"
+  export LD_LIBRARY_PATH="/Users/neeleshdewangan/Desktop/library/libtorch/lib"
+  export DYLD_LIBRARY_PATH="/Users/neeleshdewangan/Desktop/library/libtorch/lib"
+}
+
+echo_libtorch_envs() {
+  echo "LIBTORCH=${LIBTORCH};LD_LIBRARY_PATH=${LD_LIBRARY_PATH};DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH};"
+}
+
+dbuildx() {
+	docker buildx build --platform linux/amd64 -t ${1} --build-arg AwsAccessKeyId=${AWS_ACCESS_KEY_ID} --build-arg AwsSecretAccessKey=${AWS_SECRET_ACCESS_KEY} --build-arg AwsSessionToken=${AWS_SESSION_TOKEN} --build-arg serverEnv=staging . --load
+}
+
+
+imsexport() {
+  export PYTHONPATH=.:/Users/neeleshdewangan/anaconda3/lib/${PYTHON_ENV_NAME}/site-packages/
+  export AWS_DEFAULT_REGION=us-east-1
+}
+
+
+alias cloudnavi="open /Applications/cloudnavi.app"
+alias esstart="/Users/neeleshdewangan/Desktop/library/elasticsearch-8.11.3/bin/elasticsearch"
